@@ -18,35 +18,33 @@
 
     <form wire:submit.prevent="save" class="space-y-8">
 
-        @foreach($questions as $index => $q)
+        @foreach ($questions as $index => $q)
             <div class="bg-white border rounded-xl shadow-sm p-6 space-y-4">
 
                 <h3 class="font-semibold text-lg text-indigo-600">
                     Question {{ $index + 1 }}
                 </h3>
 
-                <textarea
-                    wire:model="questions.{{ $index }}.question"
-                    class="w-full border rounded-lg p-3 focus:ring focus:ring-indigo-200"
-                    placeholder="Enter question here..."
-                ></textarea>
+                <textarea wire:model="questions.{{ $index }}.question"
+                    class="w-full border rounded-lg p-3 focus:ring focus:ring-indigo-200" placeholder="Enter question here..."></textarea>
+                @error('questions.' . $index . '.question')
+                    <p class="text-xs text-rose-600 mt-1">
+                        {{ $message }}
+                    </p>
+                @enderror
 
                 <div class="grid md:grid-cols-2 gap-4">
-                    <input wire:model="questions.{{ $index }}.option_a"
-                           class="border p-2 rounded"
-                           placeholder="Option A">
+                    <input wire:model="questions.{{ $index }}.option_a" class="border p-2 rounded"
+                        placeholder="Option A">
 
-                    <input wire:model="questions.{{ $index }}.option_b"
-                           class="border p-2 rounded"
-                           placeholder="Option B">
+                    <input wire:model="questions.{{ $index }}.option_b" class="border p-2 rounded"
+                        placeholder="Option B">
 
-                    <input wire:model="questions.{{ $index }}.option_c"
-                           class="border p-2 rounded"
-                           placeholder="Option C">
+                    <input wire:model="questions.{{ $index }}.option_c" class="border p-2 rounded"
+                        placeholder="Option C">
 
-                    <input wire:model="questions.{{ $index }}.option_d"
-                           class="border p-2 rounded"
-                           placeholder="Option D">
+                    <input wire:model="questions.{{ $index }}.option_d" class="border p-2 rounded"
+                        placeholder="Option D">
                 </div>
 
                 <div>
@@ -55,21 +53,21 @@
                     </label>
 
                     <select wire:model="questions.{{ $index }}.correct_option"
-                            class="border rounded p-2 w-full mt-1">
+                        class="border rounded p-2 w-full mt-1">
                         <option value="">Select correct option</option>
-                        <option value="A">Option A</option>
-                        <option value="B">Option B</option>
-                        <option value="C">Option C</option>
-                        <option value="D">Option D</option>
+                        <option value="a">Option A</option>
+                        <option value="b">Option B</option>
+                        <option value="c">Option C</option>
+                        <option value="d">Option D</option>
                     </select>
+
                 </div>
 
             </div>
         @endforeach
 
         <div class="flex justify-end">
-            <button
-                class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg shadow">
+            <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-lg shadow">
                 Save All Questions
             </button>
         </div>

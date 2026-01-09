@@ -69,10 +69,13 @@ class StartQuiz extends Component
     }
 
     private function isCorrect($questionId, $option)
-    {
-        $question = $this->questions->firstWhere('id', $questionId);
-        return $question && $question->correct_option === $option;
-    }
+{
+    $question = $this->questions->firstWhere('id', $questionId);
+
+    return $question &&
+        strtolower($question->correct_option) === strtolower($option);
+}
+
 
     public function submitQuiz()
     {
@@ -99,6 +102,13 @@ class StartQuiz extends Component
 
     public function render()
     {
-        return view('livewire.user.quiz.start-quiz');
+         $quizzes = Quiz::with([
+        'attempts' => function ($q) {
+            $q->where('user_id', auth()->id());
+        }
+    ])->get();
+        return view('livewire.user.quiz.start-quiz', [
+        'quizzes' => $quizzes
+    ]);
     }
 }

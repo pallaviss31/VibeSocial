@@ -32,4 +32,9 @@ class QuizAttempt extends Model
     {
         return $this->hasMany(QuizAnswer::class);
     }
+    public function mount(Quiz $quiz, QuizAttempt $attempt)
+{
+    $this->quiz = $quiz;
+    $this->attempt = $attempt;
+}
 }

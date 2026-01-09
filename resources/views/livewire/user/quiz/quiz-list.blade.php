@@ -7,91 +7,104 @@
 
     <!-- ================= HEADER ================= -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:ml-48 lg:pr-8 py-8">
-    
-    <div class="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-        <div>
-            <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
-                Practice Quizzes
-            </h1>
-            <p class="text-slate-500 text-sm mt-1 font-medium">
-                Sharpen your concepts with smart, time-bound quizzes.
-            </p>
-        </div>
 
-        <div class="flex flex-wrap items-center gap-3">
-            <div class="flex p-1 bg-slate-100 rounded-xl border border-slate-200">
-                <button wire:click="$set('myQuiz', false)"
-                    class="px-4 py-2 text-xs font-bold rounded-lg transition-all duration-200
+        <div class="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+                <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
+                    Practice Quizzes
+                </h1>
+                <p class="text-slate-500 text-sm mt-1 font-medium">
+                    Sharpen your concepts with smart, time-bound quizzes.
+                </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3">
+                 <div class="flex p-1 bg-slate-100 rounded-xl border border-slate-200">
+                <button
+                    wire:click="$set('myQuiz', false)"
+                    class="px-4 py-2 text-xs font-bold rounded-lg transition
                     {{ !$myQuiz ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900' }}">
                     All Quizzes
                 </button>
 
-                <button wire:click="$set('myQuiz', true)"
-                    class="px-4 py-2 text-xs font-bold rounded-lg transition-all duration-200
+                <button
+                    wire:click="$set('myQuiz', true)"
+                    class="px-4 py-2 text-xs font-bold rounded-lg transition
                     {{ $myQuiz ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900' }}">
                     My Quizzes
                 </button>
             </div>
 
-            <button wire:click="$toggle('showCreateModal')"
-                class="group relative overflow-hidden px-5 py-2.5 rounded-xl font-bold text-sm text-white
+                <button wire:click="$toggle('showCreateModal')"
+                    class="group relative overflow-hidden px-5 py-2.5 rounded-xl font-bold text-sm text-white
                        transition-all duration-300 shadow-md active:scale-95
                        {{ $showCreateModal ? 'bg-slate-700 hover:bg-slate-800' : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-100' }}">
-                <span class="relative z-10 flex items-center gap-2">
-                    {{ $showCreateModal ? '✕ Cancel' : '＋ Create Quiz' }}
-                </span>
-                <span class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
-            </button>
+                    <span class="relative z-10 flex items-center gap-2">
+                        {{ $showCreateModal ? '✕ Cancel' : '＋ Create Quiz' }}
+                    </span>
+                    <span
+                        class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                </button>
+            </div>
         </div>
-    </div>
 
-    @if ($showCreateModal)
-        <div class="mb-10 transition-all duration-500 ease-in-out">
-            <livewire:quiz.create-quiz />
-        </div>
-    @endif
+        @if ($showCreateModal)
+            <div class="mb-10 transition-all duration-500 ease-in-out">
+                <livewire:quiz.create-quiz />
+            </div>
+        @endif
 
-    <div class="bg-white/90 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 p-6 mb-8 transition-all hover:shadow-md">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div
+            class="bg-white/90 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 p-6 mb-8 transition-all hover:shadow-md">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
 
-            <div class="relative group">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg class="w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </div>
-                <input type="text"
-                    wire:model.live.debounce.300ms="search"
-                    placeholder="Search quiz..."
-                    class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm
+                <div class="relative group">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg class="w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input type="text" wire:model.live.debounce.300ms="search" placeholder="Search quiz..."
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm
                     focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all" />
-            </div>
-
-            <div class="relative">
-                <select wire:model.live="courseFilter"
-                    class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm appearance-none
-                    focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all cursor-pointer">
-                    <option value="">All Courses</option>
-                    @foreach ($courses as $course)
-                        <option value="{{ $course->id }}">{{ $course->course_name }}</option>
-                    @endforeach
-                </select>
-                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
-            </div>
 
-            <button wire:click="toggleSort"
-                class="flex items-center justify-center gap-2 bg-indigo-50 text-indigo-700 font-bold rounded-xl px-4 py-2.5 text-sm 
-                hover:bg-indigo-100 active:bg-indigo-200 transition-colors border border-indigo-100">
-                <span>Latest First</span>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+                <div class="relative">
+                    <select wire:model.live="courseFilter"
+                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm appearance-none
+                    focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all cursor-pointer">
+                        <option value="">All Courses</option>
+                         @foreach ($courses as $course)
+                            <option value="{{ $course->id }}">
+                                {{ $course->name }} ({{ $course->semester }})
+                            </option>
+                        @endforeach
+                    </select>
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </div>
+                </div>
+
+                 <button
+                wire:click="toggleSort"
+                class="flex items-center gap-2 bg-indigo-50 text-indigo-700 font-bold rounded-xl px-4 py-2.5 text-sm
+                       hover:bg-indigo-100 transition border border-indigo-100">
+                <span>
+                    {{ $sortDirection === 'desc' ? 'Latest First' : 'Oldest First' }}
+                </span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                </svg>
             </button>
+            </div>
         </div>
     </div>
-</div>
     <!-- ================= QUIZ GRID ================= -->
     <div class="grid grid-cols-1 md:grid-cols-2 ml-48 lg:grid-cols-3 gap-6">
         @forelse ($quizzes as $quiz)
@@ -139,40 +152,54 @@
                             📝 <span class="font-medium">{{ $quiz->total_questions }} Questions</span>
                         </div>
                     </div>
-
+                    {{-- button --}}
                     @php
                         $isCreator = auth()->id() === $quiz->created_by;
+                        $attempt = $quiz->attempts->where('user_id', auth()->id())->first();
                     @endphp
 
+                    {{-- 1️⃣ Draft quiz (creator only) --}}
                     @if (!$quiz->is_published && $isCreator)
-                        <!-- Draft quiz -->
                         <a href="{{ route('quiz.manage', $quiz->id) }}"
-                            class="w-full bg-slate-600 text-white py-2 rounded-xl text-center block
-              hover:bg-slate-700 transition">
+                            class="w-full bg-slate-600 text-white py-2 rounded-xl text-center block hover:bg-slate-700 transition">
                             Continue Editing
                         </a>
+
+                        {{-- 2️⃣ Published & approved --}}
                     @elseif ($quiz->is_published && $quiz->status === 'approved')
+                        {{-- Creator --}}
                         @if ($isCreator)
-                            <!-- Creator managing live quiz -->
                             <a href="{{ route('manage', $quiz->id) }}"
-                                class="w-full bg-indigo-600 text-white py-2 rounded-xl text-center block
-                  hover:bg-indigo-700 transition">
+                                class="w-full bg-indigo-600 text-white py-2 rounded-xl text-center block hover:bg-indigo-700 transition">
                                 Manage Quiz
                             </a>
+
+                            {{-- Non-creator --}}
                         @else
-                            <!-- Other users -->
-                            <a href="{{route('start.quiz', $quiz->id)}}"
-                                class="w-full bg-emerald-600 text-white py-2 rounded-xl text-center block
-                  hover:bg-emerald-700 transition">
-                                Start Quiz
-                            </a>
+                            {{-- Attempted --}}
+                            @if ($attempt)
+                                <a href="{{ route('quiz.result', $quiz->id) }}"
+                                    class="mt-4 w-full bg-white border border-emerald-200 text-emerald-700
+                       font-bold py-2.5 rounded-xl text-center block hover:bg-emerald-50 transition">
+                                    Review Results
+                                </a>
+
+                                {{-- Not attempted --}}
+                            @else
+                                <a href="{{ route('start.quiz', $quiz->id) }}"
+                                    class="mt-4 w-full bg-emerald-600 text-white py-2.5 rounded-xl text-center block hover:bg-emerald-700 transition">
+                                    Start Quiz
+                                </a>
+                            @endif
                         @endif
+
+                        {{-- 3️⃣ Pending approval --}}
                     @elseif ($quiz->is_published && $quiz->status === 'pending' && $isCreator)
-                        <!-- Waiting for admin -->
                         <span class="block text-center text-sm text-slate-400 italic">
                             Waiting for admin approval
                         </span>
                     @endif
+
 
 
                 </div>

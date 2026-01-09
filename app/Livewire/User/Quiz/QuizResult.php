@@ -12,10 +12,8 @@ class QuizResult extends Component
 {
     public $quizId;
     public $attemptId = null;
-
     public Quiz $quiz;
     public QuizAttempt $attempt;
-
     public $totalQuestions;
     public $correct;
     public $wrong;

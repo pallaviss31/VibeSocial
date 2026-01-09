@@ -16,7 +16,6 @@ class Questions extends Component
     {
         $this->quiz = Quiz::findOrFail($quiz);
 
-        // generate fixed number of questions
         for ($i = 0; $i < $this->quiz->total_questions; $i++) {
             $this->questions[] = [
                 'question' => '',
@@ -28,6 +27,18 @@ class Questions extends Component
             ];
         }
     }
+      protected function rules()
+    {
+        return [
+            'questions.*.question' => 'required|string|min:5',
+            'questions.*.option_a' => 'required|string',
+            'questions.*.option_b' => 'required|string',
+            'questions.*.option_c' => 'required|string',
+            'questions.*.option_d' => 'required|string',
+            'questions.*.correct_option' => 'required|in:a,b,c,d',
+        ];
+    }
+
 
     public function save()
     {
@@ -38,7 +49,6 @@ class Questions extends Component
         $user = auth()->user();
         $isAdmin = $user->role === 'admin';
 
-        // 🔑 UPDATE QUIZ STATE HERE
         $this->quiz->update([
             'status' => $isAdmin ? 'approved' : 'pending',
             'is_published' => $isAdmin ? true : false,

@@ -24,7 +24,11 @@
     @livewireStyles
 
 
-    <style>[x-cloak] { display: none !important; }</style>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 
     <!-- ✅ IMPORTANT — YOU FORGOT THIS -->
 </head>
@@ -72,6 +76,28 @@
 
         <!-- Right: Profile & Menu -->
         <div class="flex items-center justify-end gap-4 w-1/3">
+            {{-- Admin Mode Button --}}
+            @auth
+                @if (auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.index') }}"
+                        class="hidden md:flex items-center gap-2 px-4 py-2
+                  bg-gradient-to-r from-indigo-900 to-purple-900
+                  text-white text-sm font-semibold rounded-xl
+                  shadow-md hover:shadow-lg hover:scale-105
+                  transition-all">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2l4-4m5-2a9 9 0 11-18 0
+                             9 9 0 0118 0z" />
+                        </svg>
+
+                        Admin Mode
+                    </a>
+                @endif
+            @endauth
+
+
             <button class="relative p-2 text-slate-500 hover:bg-slate-100 rounded-full transition">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

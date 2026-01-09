@@ -3,59 +3,68 @@
 namespace App\Livewire\User\Quiz;
 
 use App\Models\Quiz;
-use Livewire\Attributes\Layout;
-use Livewire\Component;
 use App\Models\Course;
-use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+use Livewire\Attributes\Layout;
 
 #[Layout('components.layout.user')]
 class QuizList extends Component
 {
-    public $quizzes;
-    public $myQuiz;
-    public $courses =[];
+     public string $search = '';
+    public bool $myQuiz = false;            // All / My toggle
+    public string $sortDirection = 'desc';  // Latest / Oldest
+    public bool $showCreateModal = false;
 
-   public function mount()
-{
-    $userId = auth()->id();
+    // Data
+    public $courses = [];
 
-    // quizzes
-    $this->quizzes = Quiz::where('created_by', $userId)
-        ->orWhere(function ($q) {
-            $q->where('is_published', 1)
-              ->where('status', 'approved');
-        })
-        ->orderBy('created_at', 'desc')
-        ->get();
+    public function mount()
+    {
+        // Load static data only
+        $this->courses = Course::orderBy('name')->get();
+    }
 
-    // my quizzes
-    $this->myQuiz = Quiz::where('created_by', $userId)
-        ->orderBy('created_at', 'desc')
-        ->get();
-
-    // ✅ THIS WAS MISSING
-    $this->courses = Course::orderBy('name')->get();
-}
-
-
-    public $showCreateModal = false;
+    // 🔁 Toggle sorting
+    public function toggleSort()
+    {
+        $this->sortDirection = $this->sortDirection === 'desc'
+            ? 'asc'
+            : 'desc';
+    }
 
     public function render()
     {
         $userId = auth()->id();
+
+        $query = Quiz::query();
+
+         if ($this->search !== '') {
+            $query->where(function ($q) {
+                $q->where('title', 'like', '%' . $this->search . '%')
+                  ->orWhere('description', 'like', '%' . $this->search . '%');
+            });
+        }
+
+        
+        if ($this->myQuiz) {
+            // Only quizzes created by logged-in user
+            $query->where('created_by', $userId);
+        } else {
+            // My quizzes + public approved quizzes
+            $query->where(function ($q) use ($userId) {
+                $q->where('created_by', $userId)
+                  ->orWhere(function ($q2) {
+                      $q2->where('is_published', true)
+                         ->where('status', 'approved');
+                  });
+            });
+        }
+
+        
+        $query->orderBy('created_at', $this->sortDirection);
+
         return view('livewire.user.quiz.quiz-list', [
-            'quizzes' => Quiz::where(function ($query) use ($userId) {
-                // Creator can see all their quizzes
-                $query->where('created_by', $userId);
-            })
-                ->orWhere(function ($query) {
-                    // Other users see only live quizzes
-                    $query
-                        ->where('is_published', true)
-                        ->where('status', 'approved');
-                })
-                ->latest()
-                ->get(),
+            'quizzes' => $query->get(),
         ]);
     }
 }
