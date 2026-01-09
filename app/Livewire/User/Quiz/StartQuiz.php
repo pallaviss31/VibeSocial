@@ -8,6 +8,7 @@ use App\Models\Quiz;
 use App\Models\QuizAttempt;
 use App\Models\QuizAnswer;
 
+
 #[Layout('components.layout.user')]
 class StartQuiz extends Component
 {

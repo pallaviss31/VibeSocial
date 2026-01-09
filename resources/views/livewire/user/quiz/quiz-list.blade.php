@@ -6,88 +6,92 @@
     </div>
 
     <!-- ================= HEADER ================= -->
-    <div class="mb-10 flex ml-48 flex-col md:flex-row md:items-center md:justify-between gap-6">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:ml-48 lg:pr-8 py-8">
+    
+    <div class="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
         <div>
-            <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">
+            <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
                 Practice Quizzes
             </h1>
-            <p class="text-slate-500 text-sm mt-1">
+            <p class="text-slate-500 text-sm mt-1 font-medium">
                 Sharpen your concepts with smart, time-bound quizzes.
             </p>
         </div>
 
-        <div class="flex items-center gap-4">
-            <!-- Create / Cancel Button -->
-            <button wire:click="$toggle('showCreateModal')"
-                class="group relative overflow-hidden px-5 py-2.5 rounded-xl font-semibold text-white
-                       transition-all shadow-lg
-                       {{ $showCreateModal ? 'bg-slate-600 hover:bg-slate-700' : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-200' }}">
-                <span class="relative z-10">
-                    {{ $showCreateModal ? '✖ Cancel' : '+ Create Quiz' }}
-                </span>
-                <span class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition"></span>
-            </button>
+        <div class="flex flex-wrap items-center gap-3">
+            <div class="flex p-1 bg-slate-100 rounded-xl border border-slate-200">
+                <button wire:click="$set('myQuiz', false)"
+                    class="px-4 py-2 text-xs font-bold rounded-lg transition-all duration-200
+                    {{ !$myQuiz ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900' }}">
+                    All Quizzes
+                </button>
 
-            <!-- Stats -->
-            <div class="bg-white px-5 py-3 rounded-xl shadow-sm border border-slate-100 text-center">
-                <p class="text-[10px] text-slate-400 uppercase font-bold tracking-wider">
-                    Total Attempted
-                </p>
-                <p class="text-xl font-black text-indigo-600">12</p>
+                <button wire:click="$set('myQuiz', true)"
+                    class="px-4 py-2 text-xs font-bold rounded-lg transition-all duration-200
+                    {{ $myQuiz ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-600 hover:text-slate-900' }}">
+                    My Quizzes
+                </button>
             </div>
+
+            <button wire:click="$toggle('showCreateModal')"
+                class="group relative overflow-hidden px-5 py-2.5 rounded-xl font-bold text-sm text-white
+                       transition-all duration-300 shadow-md active:scale-95
+                       {{ $showCreateModal ? 'bg-slate-700 hover:bg-slate-800' : 'bg-indigo-600 hover:bg-indigo-700 shadow-indigo-100' }}">
+                <span class="relative z-10 flex items-center gap-2">
+                    {{ $showCreateModal ? '✕ Cancel' : '＋ Create Quiz' }}
+                </span>
+                <span class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+            </button>
         </div>
     </div>
 
-    <!-- ================= CREATE QUIZ MODAL ================= -->
     @if ($showCreateModal)
-        <div class="mb-10 animate-fade-in">
+        <div class="mb-10 transition-all duration-500 ease-in-out">
             <livewire:quiz.create-quiz />
         </div>
     @endif
 
-    <!-- ================= FILTERS ================= -->
-    <!-- Filters -->
-    <div class="bg-white/80 backdrop-blur rounded-2xl ml-48 shadow-sm border border-slate-200 p-5 mb-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4"> <!-- Search -->
-            <div class="relative">
-                <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                        stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+    <div class="bg-white/90 backdrop-blur-md rounded-2xl shadow-sm border border-slate-200 p-6 mb-8 transition-all hover:shadow-md">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+            <div class="relative group">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                             d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg> </span>
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-3 flex items-center text-slate-400">
-                        🔍
-                    </span>
-                    <input type="text" placeholder="Search quiz..."
-                        class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm
-                       focus:outline-none focus:ring-2 focus:ring-indigo-500 transition" />
+                    </svg>
                 </div>
-            </div> <!-- Course --> <select
-                class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                <option value="">All Courses</option>
-                <option>UPSC</option>
-                <option>State PSC</option>
-                <option>SSC</option>
-            </select> <!-- Semester --> <select
-                class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                <option value="">Semester</option>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-            </select> <!-- Subject --> <select
-                class="bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                <option value="">All Subjects</option>
-                <option>Geography</option>
-                <option>History</option>
-                <option>Polity</option>
-            </select> <!-- Clear Filters --> <button
-                class="bg-indigo-50 text-indigo-600 font-semibold rounded-xl px-4 py-2.5 text-sm hover:bg-indigo-100 transition-colors">
-                Latest First ↓ </button>
+                <input type="text"
+                    wire:model.live.debounce.300ms="search"
+                    placeholder="Search quiz..."
+                    class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2.5 text-sm
+                    focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all" />
+            </div>
+
+            <div class="relative">
+                <select wire:model.live="courseFilter"
+                    class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm appearance-none
+                    focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 outline-none transition-all cursor-pointer">
+                    <option value="">All Courses</option>
+                    @foreach ($courses as $course)
+                        <option value="{{ $course->id }}">{{ $course->course_name }}</option>
+                    @endforeach
+                </select>
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+            </div>
+
+            <button wire:click="toggleSort"
+                class="flex items-center justify-center gap-2 bg-indigo-50 text-indigo-700 font-bold rounded-xl px-4 py-2.5 text-sm 
+                hover:bg-indigo-100 active:bg-indigo-200 transition-colors border border-indigo-100">
+                <span>Latest First</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </button>
         </div>
     </div>
-
+</div>
     <!-- ================= QUIZ GRID ================= -->
     <div class="grid grid-cols-1 md:grid-cols-2 ml-48 lg:grid-cols-3 gap-6">
         @forelse ($quizzes as $quiz)

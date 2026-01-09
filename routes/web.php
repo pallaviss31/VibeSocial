@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 // admin components
 use App\Livewire\Admin\AdminIndex;
 use App\Livewire\Admin\QuizIndex;
+use App\Livewire\Admin\QuizReview;
 // user components
 use App\Livewire\Quiz\CreateQuiz;
 use App\Livewire\Quiz\Questions;
@@ -67,6 +68,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/admin/quizzes', QuizIndex::class)
         ->name('admin.quizzes');
+        Route::get('/admin/quiz/{quiz}/review', QuizReview::class)
+    ->name('quiz.review');
+
 
     Route::get('/messages/{conversationId?}', Messenger::class)->name('messages');
     Route::post('/logout', function () {

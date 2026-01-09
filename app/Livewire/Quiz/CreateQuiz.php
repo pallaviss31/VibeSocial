@@ -3,6 +3,7 @@
 namespace App\Livewire\Quiz;
 
 use App\Models\Quiz;
+use App\Models\Course; 
 use Livewire\Attributes\Layout;
 use Livewire\Component;
 
@@ -13,7 +14,7 @@ class CreateQuiz extends Component
     public $description;
     public $total_questions;
     public $passing_marks;
-    public $course;
+    public $course_id;
     public $semester;
     public $subject;
     public $time_limit = 15;
@@ -38,7 +39,7 @@ class CreateQuiz extends Component
             'description' => $this->description,
             'total_questions' => $this->total_questions,
             'passing_marks' => $this->passing_marks,
-            'course' => $this->course,
+            'course_id' => $this->course_id,
             'semester' => $this->semester,
             'subject' => $this->subject,
             'time_limit' => $this->time_limit,
@@ -58,6 +59,8 @@ class CreateQuiz extends Component
 
     public function render()
     {
-        return view('livewire.quiz.create-quiz');
+        return view('livewire.quiz.create-quiz', [
+        'courses' => Course::all()
+    ]);
     }
 }

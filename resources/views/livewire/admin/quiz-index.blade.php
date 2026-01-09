@@ -92,7 +92,7 @@
                         <!-- Actions -->
                         <td class="px-5 py-4 text-right space-x-2">
 
-                            <a href="{{ route('quiz.manage', $quiz->id) }}"
+                            <a href="{{ route('quiz.review', $quiz->id) }}"
                                 class="inline-block px-4 py-1.5 text-sm rounded-lg bg-gray-800 text-white hover:bg-gray-900 transition">
                                 Questions
                             </a>
