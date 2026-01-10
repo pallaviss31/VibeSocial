@@ -112,7 +112,7 @@
                                 {{ auth()->user()->fname }} {{ auth()->user()->lname }}
                             </p>
                             <p class="text-xs font-medium text-slate-500 mt-1">
-                                Administrator
+                                Admin
                             </p>
                         </div>
 
