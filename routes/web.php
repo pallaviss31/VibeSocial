@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Livewire\Admin\AdminIndex;
 use App\Livewire\Admin\QuizIndex;
 use App\Livewire\Admin\QuizReview;
+use App\Livewire\Admin\Users;
+use App\Livewire\Admin\Courses;
 // user components
 use App\Livewire\Quiz\CreateQuiz;
 use App\Livewire\Quiz\Questions;
@@ -18,10 +20,10 @@ use App\Livewire\User\courses\Mycourses;
 use App\Livewire\User\EventLibrary\EventCreate;
 use App\Livewire\User\EventLibrary\Index;
 use App\Livewire\User\EventLibrary\Show;
+use App\Livewire\User\Quiz\ManageQuiz;
 use App\Livewire\User\Quiz\QuizList;
 use App\Livewire\User\Quiz\QuizResult;
 use App\Livewire\User\Quiz\StartQuiz;
-use App\Livewire\User\Quiz\ManageQuiz;
 use App\Livewire\User\StudyGroups\Create;
 use App\Livewire\User\StudyGroups\GroupShow;
 use App\Livewire\User\StudyGroups\ListGroups;
@@ -63,14 +65,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/quiz/{quizId}/manage', ManageQuiz::class)->name('manage');
 
     Route::get('/quiz/{quizId}/result', QuizResult::class)
-    ->name('quiz.result');
-
+        ->name('quiz.result');
 
     Route::get('/admin/quizzes', QuizIndex::class)
         ->name('admin.quizzes');
-        Route::get('/admin/quiz/{quiz}/review', QuizReview::class)
-    ->name('quiz.review');
+    Route::get('/admin/quiz/{quiz}/review', QuizReview::class)
+        ->name('quiz.review');
+    Route::get('/admin/users', Users::class)
+        ->name('admin.users');
 
+    Route::get('/admin/course/', Courses::class)
+        ->name('admin.course');
 
     Route::get('/messages/{conversationId?}', Messenger::class)->name('messages');
     Route::post('/logout', function () {

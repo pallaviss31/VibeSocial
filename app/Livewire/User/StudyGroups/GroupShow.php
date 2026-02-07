@@ -6,23 +6,38 @@ use App\Models\GroupMember;
 use App\Models\StudyGroup;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Livewire\WithFileUploads;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 #[Layout('components.layout.user')]
 class GroupShow extends Component
 {
+    use WithFileUploads;
+    use AuthorizesRequests;
+
     public StudyGroup $group;
+    public string $activeTab = 'dashboard';
+    public $members = [];
     public $requests = [];
     public $membership = null;
-    public $canView = false;
+
+    public bool $canView = false;
+    public bool $isAdmin = false;
+    public $cover;
 
     public function mount(StudyGroup $group)
     {
-        $this->group = $group->load('members.user');
+        $this->group = $group;
 
-        $this->membership = $this->group->members
-    ->where('user_id', auth()->id())
-    ->first();
+        // 🔑 Default tab
+        $this->activeTab = 'dashboard';
 
+        // Membership info
+        $this->membership = GroupMember::where('study_group_id', $group->id)
+            ->where('user_id', auth()->id())
+            ->first();
+
+        // Can view group?
         if (
             auth()->id() === $group->created_by ||
             ($this->membership && $this->membership->status === 'joined')
@@ -30,7 +45,13 @@ class GroupShow extends Component
             $this->canView = true;
         }
 
-        if (auth()->id() === $group->created_by) {
+        // Is admin?
+        $this->isAdmin =
+            auth()->id() === $group->created_by ||
+            ($this->membership && $this->membership->role === 'admin');
+
+        // Load pending requests for admins
+        if ($this->isAdmin) {
             $this->requests = GroupMember::with('user')
                 ->where('study_group_id', $group->id)
                 ->where('status', 'requested')
@@ -38,18 +59,55 @@ class GroupShow extends Component
         }
     }
 
-    public function approve($requestId)
+    // Switch tabs
+    public function setTab(string $tab)
     {
-        GroupMember::findOrFail($requestId)
-            ->update(['status' => 'joined']);
+        $this->activeTab = $tab;
 
-        $this->requests = $this->requests->where('id', '!=', $requestId);
+        if ($tab === 'members') {
+            $this->loadMembers();
+        }
     }
 
-    public function reject($requestId)
+    // Load members when needed
+    public function loadMembers()
     {
-        GroupMember::findOrFail($requestId)->delete();
-        $this->requests = $this->requests->where('id', '!=', $requestId);
+        $this->members = GroupMember::with('user')
+            ->where('study_group_id', $this->group->id)
+            ->where('status', 'joined')
+            ->get();
+    }
+
+    // Cover update
+    public function updateCover()
+    {
+        if (!$this->isAdmin) abort(403);
+
+        $this->validate([
+            'cover' => 'image|max:2048',
+        ]);
+
+        $path = $this->cover->store('group-covers', 'public');
+
+        $this->group->update([
+            'cover_image' => $path,
+        ]);
+
+        session()->flash('success', 'Group cover updated!');
+    }
+
+    // Approve join request
+    public function approve($id)
+    {
+        GroupMember::findOrFail($id)->update(['status' => 'joined']);
+        $this->requests = $this->requests->where('id', '!=', $id);
+    }
+
+    // Reject join request
+    public function reject($id)
+    {
+        GroupMember::findOrFail($id)->delete();
+        $this->requests = $this->requests->where('id', '!=', $id);
     }
 
     public function render()

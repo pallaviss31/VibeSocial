@@ -27,7 +27,7 @@
                 <livewire:user.onlinefriends />
 
                 <!-- Upcoming Deadlines Widget -->
-                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+                {{-- <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="font-bold text-slate-800">Deadlines</h3>
                         <a href="{{ route('assignments') }}"
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
 

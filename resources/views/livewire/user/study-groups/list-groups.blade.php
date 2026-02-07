@@ -63,7 +63,7 @@
                     <p class="text-sm text-indigo-600">{{ $group->subject }}</p>
                 </div>
 
-                <span class="text-xs px-2 py-1 rounded-full
+                <span class="text-xs p-2 items-center flex justify-center rounded-xl
                     {{ $group->visibility === 'public'
                         ? 'bg-green-100 text-green-700'
                         : 'bg-gray-200 text-gray-700' }}">
