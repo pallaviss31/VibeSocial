@@ -1,4 +1,4 @@
-<div class="max-w-8xl mx-auto bg-indigo-200 px-4 lg:px-1 py-8">
+<div class="max-w-8xl mx-auto  px-4 lg:px-1 py-8">
     <div class="flex flex-col lg:flex-row gap-5">
 
        

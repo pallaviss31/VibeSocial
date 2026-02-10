@@ -28,7 +28,8 @@
 
         @if ($post->image)
         <div class="mb-4 rounded-xl overflow-hidden border border-slate-100">
-            <img src="{{ asset('storage/' . $post->image) }}" class="w-full object-cover max-h-[250px]">
+           <img src="{{ $post->image }}" class="w-full object-cover max-h-[250px]">
+
         </div>
         @endif
 

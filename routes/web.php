@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Jobs\TestJob;
 // auth components
 use App\Livewire\Auth\Login;
 use App\Livewire\Auth\Register;
@@ -82,4 +83,11 @@ Route::middleware(['auth'])->group(function () {
         Auth::logout();
         return redirect()->route('login');
     })->name('logout');
+});
+
+
+
+Route::get('/test-job', function () {
+    TestJob::dispatch();
+    return "Job sent";
 });
