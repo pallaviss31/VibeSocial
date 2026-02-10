@@ -1,10 +1,10 @@
-<div class="min-h-screen bg-slate-50 pb-12">
-    <div class="hidden lg:block w-1/4 left-10 fixed ">
-        <div class="sticky top-24">
+<div class="min-h-screen  pb-12">
+    {{-- <div class="hidden lg:block w-1/4 left-10 fixed ">
+        {{-- <div class="sticky top-24">
             <livewire:user.sidebar />
-        </div>
-    </div>
-    <div class="lg:ml-72 px-8 pt-8 space-y-8 ">
+        </div> --}}
+    {{-- </div>  --}}
+    <div class=" px-8 pt-8 space-y-8 ">
 
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>

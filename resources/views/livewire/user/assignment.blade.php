@@ -2,13 +2,13 @@
     <div class="flex flex-col lg:flex-row gap-8">
         <!-- Left Sidebar -->
    
-  <div class="hidden lg:block w-1/4 left-10 fixed ">
-            <div class="sticky top-24">
+  {{-- <div class="hidden lg:block w-1/4 left-10 fixed "> --}}
+            {{-- <div class="sticky top-24">
                 <livewire:user.sidebar />
-            </div>
-        </div>
+            </div> --}}
+        {{-- </div> --}}
         <!-- Main Content -->
-        <div class="w-full lg:w-3/4 ml-52">
+        <div class="w-full lg:w-3/4 ">
             <div class="flex items-center justify-between mb-6">
                 <div>
                     <h2 class="text-2xl font-bold text-slate-800">Assignments</h2>

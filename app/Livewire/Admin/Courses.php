@@ -9,12 +9,16 @@ use Livewire\Attributes\Layout;
 #[Layout("components.layout.admin")]
 class Courses extends Component
 {
-    public $title;
+    public $name;
+    public $semester;
+    public $year;
     public $description;
-    public $showForm = false; // Added to handle the toggle
+    public $showForm = false;
 
     protected $rules = [
-        'title' => 'required|min:3',
+        'name' => 'required|min:3',
+        'semester' => 'required',
+        'year' => 'required',
         'description' => 'nullable|min:5',
     ];
 
@@ -23,18 +27,21 @@ class Courses extends Component
         $this->validate();
 
         Course::create([
-            'title' => $this->title,
+            'name' => $this->name,
+            'semester' => $this->semester,
+            'year' => $this->year,
             'description' => $this->description,
         ]);
 
-        $this->reset(['title', 'description', 'showForm']);
-        session()->flash('success', 'New Curriculum Deployed!');
+        $this->reset(['name','semester','year','description','showForm']);
+
+        session()->flash('success', 'Course added successfully!');
     }
 
     public function deleteCourse($id)
     {
-        Course::find($id)->delete();
-        session()->flash('success', 'Course removed successfully.');
+        Course::find($id)?->delete();
+        session()->flash('success', 'Course deleted.');
     }
 
     public function render()
@@ -42,8 +49,7 @@ class Courses extends Component
         return view('livewire.admin.courses', [
             'courses' => Course::latest()->get(),
             'totalCourses' => Course::count(),
-            // Sending fake data for the "Vibe Check" stats
-            'totalEnrollments' => rand(1500, 3000), 
+            'totalEnrollments' => rand(1500, 3000),
             'activeRooms' => rand(5, 15)
         ]);
     }

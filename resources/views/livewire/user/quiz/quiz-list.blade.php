@@ -1,12 +1,12 @@
 <div class="max-w-7xl mx-auto px-4 py-10 font-sans">
-    <div class="hidden lg:block w-1/4 left-10 fixed ">
+    {{-- <div class="hidden lg:block w-1/4 left-10 fixed ">
         <div class="sticky top-24">
             <livewire:user.sidebar />
         </div>
-    </div>
+    </div> --}}
 
     <!-- ================= HEADER ================= -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:ml-48 lg:pr-8 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6  lg:pr-8 py-8">
 
         <div class="mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div>

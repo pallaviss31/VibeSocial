@@ -1,14 +1,14 @@
 <div class="max-w-7xl mx-auto py-10 flex gap-8">
 
     <!-- Sidebar -->
-    <div class="hidden lg:block fixed left-10 w-1/4">
-        <div class="sticky top-24">
+    {{-- <div class="hidden lg:block fixed left-10 w-1/4"> --}}
+        {{-- <div class="sticky top-24">
             <livewire:user.sidebar />
-        </div>
-    </div>
+        </div> --}}
+    {{-- </div> --}}
 
     <!-- Main Content -->
-    <div class="w-full lg:w-3/4 space-y-8 ml-60">
+    <div class="w-full lg:w-3/4 space-y-8 ml-10 ">
 
         <!-- Header -->
         <div class="flex items-center justify-between">

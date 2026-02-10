@@ -1,12 +1,7 @@
-<div class="max-w-8xl mx-auto px-4 lg:px-1 py-8">
+<div class="max-w-8xl mx-auto bg-indigo-200 px-4 lg:px-1 py-8">
     <div class="flex flex-col lg:flex-row gap-5">
 
-        <!-- Left Sidebar: Academic Menu -->
-        <div class="hidden lg:block w-1/4 ml-7">
-            <div class="sticky top-24 h-[calc(100vh-6rem)] hover:overflow-y-auto pr-2">
-                <livewire:user.sidebar />
-            </div>
-        </div>
+       
 
 
         <!-- Center Feed: Campus Updates -->

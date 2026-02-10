@@ -1,7 +1,7 @@
-<div class="space-y-8 hover:overflow ">
+<div class="space-y-8 hover:overflow   bg-white ">
     {{-- Profile --}}
-    <div class="flex items-center gap-3 px-2">
-        <div class="w-12 h-12 rounded-full bg-indigo-100 border-2 border-white shadow-sm overflow-hidden">
+    <div class="flex items-center gap-3  ml-5 px-2">
+        <div class="w-12 h-12 rounded-full mt-5  bg-indigo-100 border-2 border-white shadow-sm overflow-hidden">
             @if (auth()->user()->dp)
                 <img src="{{ asset('storage/images/dp/' . auth()->user()->dp) }}" alt="Profile"
                     class="w-full h-full  bg-cover">
@@ -21,8 +21,8 @@
     </div>
     {{-- Academic --}}
     <div>
-        <h3 class="px-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Academics</h3>
-        <nav class="space-y-1">
+        <h3 class="px-2 text-xs ml-5 font-bold text-slate-400 uppercase tracking-wider mb-2">Academics</h3>
+        <nav class="space-y-1 ml-5">
             <a href="{{ route('courses') }}"
                 class="flex items-center gap-3 px-3 w-64 py-2 text-slate-600 rounded-xl hover:bg-white hover:shadow-sm hover:text-indigo-600 transition group">
                 <div
@@ -63,10 +63,10 @@
     </div>
     <!-- Campus Life -->
     <div>
-        <h3 class="px-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Campus Life</h3>
-        <nav class="space-y-1">
+        <h3 class="px-2 text-xs ml-5 font-bold text-slate-400 uppercase tracking-wider mb-2">Campus Life</h3>
+        <nav class="space-y-1 ml-5">
             <a href="{{ route('grouplist') }}"
-                class="flex items-center gap-3  w-64 px-3 py-2 text-slate-600 rounded-xl hover:bg-white hover:shadow-sm hover:text-indigo-600 transition group">
+                class="flex items-center gap-3   w-64 px-3 py-2 text-slate-600 rounded-xl hover:bg-white hover:shadow-sm hover:text-indigo-600 transition group">
                 <div
                     class="w-8 h-8 rounded-lg bg-orange-50 text-orange-600 flex items-center justify-center group-hover:bg-orange-600 group-hover:text-white transition">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -115,8 +115,8 @@
         </nav>
     </div>
     <div>
-        <h3 class="px-2 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Shortcuts</h3>
-        <nav class="space-y-1">
+        <h3 class="px-2 ml-5 text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Shortcuts</h3>
+        <nav class="space-y-1 ml-5">
             <a href="#"
                 class="flex items-center gap-3 px-3 w-64 py-2 text-slate-600 rounded-xl hover:bg-white hover:shadow-sm transition group">
                 <img src="https://ui-avatars.com/api/?name=CS+101&background=random"

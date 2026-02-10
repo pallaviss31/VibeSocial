@@ -1,10 +1,10 @@
 <div class="max-w-5xl mx-auto p-6 space-y-6">
-    <div class="hidden lg:block fixed left-10 w-1/4">
+    {{-- <div class="hidden lg:block fixed left-10 w-1/4">
         <div class="sticky top-24">
             <livewire:user.sidebar />
         </div>
-    </div>
-    <div class="max-w-5xl mx-auto p-6 space-y-6">
+    </div> --}}
+    <div class="flex-1 space-y-6">
 
     <!-- Header -->
     <div class="flex justify-between items-center">

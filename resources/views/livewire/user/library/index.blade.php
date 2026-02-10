@@ -1,16 +1,16 @@
-<div class="min-h-screen bg-slate-50 p-8">
+<div class="min-h-screen  p-8">
     <div class="max-w-7xl mx-auto">
         <div class="flex gap-6">
 
             <!-- Sidebar (Left) -->
-           <div class="hidden lg:block w-1/4 left-10 fixed ">
+           {{-- <div class="hidden lg:block w-1/4 left-10 fixed ">
             <div class="sticky top-24">
                 <livewire:user.sidebar />
             </div>
-        </div>
+        </div> --}}
 
             <!-- Main Content -->
-            <main class="flex-1 space-y-6 ml-72">
+            <main class="flex-1 space-y-6 ">
 
                 <!-- Search + Actions -->
                 <div class="flex flex-col md:flex-row items-center gap-3 bg-white p-4 rounded-lg shadow-sm">

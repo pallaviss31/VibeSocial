@@ -22,6 +22,8 @@
         }
     </script>
     @livewireStyles
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
 
 
     <style>
@@ -71,8 +73,6 @@
             </div>
         </div>
 
-        <!-- Center: Navigation (Mobile/Tablet only, hidden on large desktop if sidebar handles it) -->
-        <!-- Keeping minimal for now, focusing on sidebar for main nav -->
 
         <!-- Right: Profile & Menu -->
         <div class="flex items-center justify-end gap-4 w-1/3">
@@ -89,7 +89,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                             stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2l4-4m5-2a9 9 0 11-18 0
-                             9 9 0 0118 0z" />
+                                 9 9 0 0118 0z" />
                         </svg>
 
                         Admin Mode
@@ -130,8 +130,13 @@
         </div>
     </header>
     <!-- Main Content -->
-    <div class="pt-16 min-h-screen">
-        {{ $slot }}
+    <div class="pt-16 min-h-screen flex ">
+        <div class="sticky top-24  hidden lg:block w-1/5 ">
+            <livewire:user.sidebar />
+        </div>
+        <div class="w-full lg:w-4/5  bg-indigo-50">
+            {{ $slot }}
+        </div>
     </div>
     {{-- @livewireStyles --}}
     @livewireScripts
