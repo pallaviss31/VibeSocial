@@ -1,27 +1,39 @@
 <?php
 
 namespace App\Livewire\User;
-use App\Models\Notification;
 
+use App\Models\Notification;
 use Livewire\Component;
 
 class NotificationBell extends Component
 {
-     public $count = 0;
+    public $count = 0;
+    public $notifications = [];
 
     public function mount()
     {
-        $this->loadCount();
+        $this->loadNotifications();
     }
 
-    public function loadCount()
+    public function loadNotifications()
     {
         $this->count = Notification::where('user_id', auth()->id())
             ->where('is_read', false)
             ->count();
+
+        $this->notifications = Notification::where('user_id', auth()->id())
+            ->latest()
+            ->take(10)
+            ->get();
     }
 
-    protected $listeners = ['notificationAdded' => 'loadCount'];
+    public function markAsRead($id)
+    {
+        Notification::find($id)?->update(['is_read' => true]);
+        $this->loadNotifications();
+    }
+
+    protected $listeners = ['notificationReceived' => 'loadNotifications'];
 
     public function render()
     {

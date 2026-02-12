@@ -2,46 +2,71 @@
 
 namespace App\Livewire\User\Post;
 
+use App\Events\PostLiked;
 use App\Models\UserPost;
-use Livewire\Component;
 use Livewire\Attributes\On;
+use Livewire\Component;
 
 class CallingPost extends Component
 {
-
     public $posts;
     public $content;
 
-
-    #[On("postCreated")]
     public function mount($selectedUser = null)
     {
+        $this->loadPosts($selectedUser);
+    }
+
+    public function loadPosts($selectedUser = null)
+    {
         if ($selectedUser && $selectedUser->id != auth()->user()->id) {
-            // viewing other user's posts
-            $this->posts = UserPost::where("user_id", $selectedUser->id)->orderBy('created_at', 'desc')->get();
+            $this->posts = UserPost::where('user_id', $selectedUser->id)
+                ->latest()
+                ->get();
         } else {
-            // viewing own posts
-            // only friends post show here
             $myFriendsIds = auth()->user()->friends()->pluck('id')->toArray();
-            $this->posts = UserPost::whereIn("user_id", $myFriendsIds)->orWhere("user_id", auth()->user()->id)->orderBy('created_at', 'desc')->get();
+
+            $this->posts = UserPost::whereIn('user_id', $myFriendsIds)
+                ->orWhere('user_id', auth()->id())
+                ->latest()
+                ->get();
         }
+    }
+
+    #[On('postCreated')]
+    public function refreshPosts()
+    {
+        $this->loadPosts();
+    }
+
+    public function test()
+    {
+        dd('WORKING');
     }
 
     public function like($postId)
     {
-        // if already liked, then unlike
+        // dd('clicked');
+        $post = UserPost::find($postId);
+        if (!$post)
+            return;
 
-        if(UserPost::find($postId)->likes()->where("user_id",auth()->id())->exists()){
-            UserPost::find($postId)->likes()->where("user_id",auth()->id())->delete();
-            $this->dispatch("postCreated");
+        // already liked → unlike
+        if ($post->likes()->where('user_id', auth()->id())->exists()) {
+            $post->likes()->where('user_id', auth()->id())->delete();
+            $this->dispatch('postCreated');
             return;
         }
-        
-        $post = UserPost::find($postId);
-        if ($post) {
-            $post->likes()->create(['user_id' => auth()->id()]);
-        }
-        $this->dispatch("postCreated");
+
+        // like
+        $post->likes()->create([
+            'user_id' => auth()->id()
+        ]);
+
+        // 🔥 EVENT FIRE (correct place)
+        event(new PostLiked($post, auth()->user()));
+
+        $this->dispatch('postCreated');
     }
 
     public function addComment($postId)
@@ -54,9 +79,10 @@ class CallingPost extends Component
             ]);
         }
         // reset
-        $this->content = "";
-        $this->dispatch("postCreated");
+        $this->content = '';
+        $this->dispatch('postCreated');
     }
+
     public function render()
     {
         return view('livewire.user.post.calling-post', ['posts' => $this->posts]);
