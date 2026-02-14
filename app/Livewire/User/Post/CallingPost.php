@@ -3,6 +3,8 @@
 namespace App\Livewire\User\Post;
 
 use App\Events\PostLiked;
+use App\Events\CommentAdded;
+use App\Events\FriendRequestSent;
 use App\Models\UserPost;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -10,7 +12,7 @@ use Livewire\Component;
 class CallingPost extends Component
 {
     public $posts;
-    public $content;
+    public $comments = [];
 
     public function mount($selectedUser = null)
     {
@@ -63,7 +65,7 @@ class CallingPost extends Component
             'user_id' => auth()->id()
         ]);
 
-        // 🔥 EVENT FIRE (correct place)
+        //  EVENT FIRE
         event(new PostLiked($post, auth()->user()));
 
         $this->dispatch('postCreated');
@@ -71,16 +73,24 @@ class CallingPost extends Component
 
     public function addComment($postId)
     {
-        $post = UserPost::find($postId);
-        if ($post) {
-            $post->comments()->create([
-                'user_id' => auth()->id(),
-                'comment' => $this->content
-            ]);
-        }
-        // reset
-        $this->content = '';
-        $this->dispatch('postCreated');
+       $post = UserPost::find($postId);
+    if (!$post) return;
+
+    $text = $this->comments[$postId] ?? null;
+
+    if (!$text) return;
+
+    $post->comments()->create([
+        'user_id' => auth()->id(),
+        'comment' => $text
+    ]);
+
+    event(new \App\Events\CommentAdded($post, auth()->user()));
+
+    // reset only this input
+    $this->comments[$postId] = '';
+
+    $this->dispatch('postCreated');
     }
 
     public function render()

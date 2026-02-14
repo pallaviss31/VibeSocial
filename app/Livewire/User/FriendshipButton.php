@@ -52,6 +52,8 @@ class FriendshipButton extends Component
             'receiver_id' => $this->selectedUser->id,
             'status' => 'pending',
         ]);
+        
+        event(new \App\Events\FriendRequestSent(auth()->user(), $toUser));
 
         $this->determineFriendshipStatus();
     }

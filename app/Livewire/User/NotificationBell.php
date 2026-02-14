@@ -9,7 +9,7 @@ class NotificationBell extends Component
 {
     public $count = 0;
     public $notifications = [];
-
+    public $open = false;
     public function mount()
     {
         $this->loadNotifications();
@@ -26,10 +26,30 @@ class NotificationBell extends Component
             ->take(10)
             ->get();
     }
+     public function toggleDropdown()
+    {
+        $this->open = !$this->open;
+
+        if ($this->open) {
+            $this->loadNotifications();
+        }
+    }
 
     public function markAsRead($id)
     {
-        Notification::find($id)?->update(['is_read' => true]);
+        Notification::where('id', $id)
+            ->where('user_id', auth()->id())
+            ->update(['is_read' => true]);
+
+        $this->loadNotifications();
+    }
+
+   public function markAllRead()
+    {
+        Notification::where('user_id', auth()->id())
+            ->where('is_read', false)
+            ->update(['is_read' => true]);
+
         $this->loadNotifications();
     }
 
