@@ -2,8 +2,8 @@ FROM php:8.4-cli
 
 # install packages
 RUN apt-get update && apt-get install -y \
-    git unzip libzip-dev zip curl nodejs npm \
-    && docker-php-ext-install zip pdo pdo_mysql
+    git unzip libzip-dev zip curl nodejs npm libpq-dev \
+    && docker-php-ext-install zip pdo pdo_mysql pdo_pgsql
 
 # install composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
