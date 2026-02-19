@@ -1,6 +1,6 @@
 FROM php:8.4-cli
 
-# install packages
+# install system packages
 RUN apt-get update && apt-get install -y \
     git unzip libzip-dev zip curl nodejs npm libpq-dev \
     && docker-php-ext-install zip pdo pdo_mysql pdo_pgsql
@@ -10,27 +10,25 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www
 
-# copy project
+# copy project files
 COPY . .
 
-# remove the Vite hot file if it exists (prevents dev-mode asset loading in production)
+# remove Vite hot file (prevents dev-mode asset loading in production)
 RUN rm -f public/hot
 
-# install PHP dependencies
+# install PHP dependencies (no dev, optimized autoloader)
 RUN composer install --no-dev --optimize-autoloader
 
 # install Node dependencies and build frontend assets
 RUN npm ci && npm run build
 
-# permissions for Laravel
+# set permissions for Laravel storage and cache
 RUN chmod -R 775 storage bootstrap/cache
 
-# cache config/routes/views (uses env vars injected at runtime, not build time)
-# We skip artisan caches at build time since DB env vars aren't available during build
-
-# start server
+# startup: cache config/routes/views, create storage symlink, run migrations, start server
 CMD php artisan config:cache && \
     php artisan route:cache && \
     php artisan view:cache && \
+    php artisan storage:link && \
     php artisan migrate --force && \
     php -S 0.0.0.0:$PORT -t public
